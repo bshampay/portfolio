@@ -27,12 +27,58 @@ a {
 
 /* Hero */
 
+.hero__media {
+  position: relative;
+}
+
 .hero__image {
   display: block;
   width: 100%;
   height: auto;
   max-height: 80vh;
   object-fit: cover;
+}
+
+/* Lets the browser smoothly interpolate --spot-radius; without this
+   the spotlight would just snap open/closed instead of growing in. */
+@property --spot-radius {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+/* Soil starts covered/darkened, with a small resting glow over the
+   center tree's roots as a cue that it's interactive. Dragging/hovering
+   the pointer punches a tighter hole in the veil at the pointer
+   position, revealing more of the glowing roots underneath. */
+.hero__soil-veil {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 72%;
+  --spot-x: 50%;
+  --spot-y: 30%;
+  --spot-radius: 55px;
+  background: linear-gradient(
+    to bottom,
+    rgba(4, 8, 6, 0) 0%,
+    rgba(4, 8, 6, 0.55) 20%,
+    rgba(4, 8, 6, 0.88) 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle var(--spot-radius) at var(--spot-x) var(--spot-y),
+    transparent 0%,
+    transparent 60%,
+    black 100%
+  );
+  mask-image: radial-gradient(
+    circle var(--spot-radius) at var(--spot-x) var(--spot-y),
+    transparent 0%,
+    transparent 60%,
+    black 100%
+  );
+  transition: --spot-radius 0.35s ease;
 }
 
 .hero__copy {

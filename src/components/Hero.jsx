@@ -1,16 +1,72 @@
-import heroImage from "../assets/hero.png";
+import { useRef } from "react";
+import heroImage from "../assets/hero_pano.png";
 
-// Static for now, per brief: no hover/canopy/mycelium interactions,
-// ambient animation, or sound yet — image, headline, and body copy only.
-// Those are documented as future ideas in the project brief.
+const HOVER_RADIUS = "90px";
+
+// Static for now, per brief: no canopy/mycelium hover, ambient animation,
+// or sound yet — those are documented as future ideas in the project brief.
+// The soil veil is the one interaction built so far.
 function Hero() {
+  const veilRef = useRef(null);
+
+  // Written straight to the DOM (not React state) so dragging/hovering
+  // doesn't trigger a re-render on every pointer move.
+  const trackSpot = (event) => {
+    const veil = veilRef.current;
+    if (!veil) return;
+    const rect = veil.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    veil.style.setProperty("--spot-x", `${x}%`);
+    veil.style.setProperty("--spot-y", `${y}%`);
+  };
+
+  const revealSpot = (event) => {
+    trackSpot(event);
+    veilRef.current?.style.setProperty("--spot-radius", HOVER_RADIUS);
+  };
+
+  // Fully closes the spotlight on leave — a "leave" can only happen
+  // after an "enter", so the CSS default glow below (the resting cue
+  // over the center tree's roots) only ever shows before the very
+  // first hover/touch, and never comes back after that.
+  const hideSpot = () => {
+    const veil = veilRef.current;
+    if (!veil) return;
+    veil.style.setProperty("--spot-radius", "0px");
+    veil.style.removeProperty("--spot-x");
+    veil.style.removeProperty("--spot-y");
+  };
+
   return (
     <header className="hero">
-      <img
-        className="hero__image"
-        src={heroImage}
-        alt="A cross-section illustration of trees, roots, and a glowing mycelium network underground"
-      />
+      <div className="hero__media">
+        <img
+          className="hero__image"
+          src={heroImage}
+          alt="A cross-section illustration of trees, roots, and a glowing mycelium network underground"
+        />
+        {/*
+          Pointer Events unify mouse and touch: on desktop this is a
+          hover-follow spotlight (pointerenter/move/leave). On touch,
+          there's no hover, so pointerdown/move/up naturally becomes
+          "press and drag to reveal" instead — no separate touch code
+          needed. Left as default touch-action so a vertical swipe that
+          turns into a page scroll still cancels the gesture and scrolls
+          normally rather than getting stuck.
+        */}
+        <div
+          ref={veilRef}
+          className="hero__soil-veil"
+          aria-hidden="true"
+          onPointerEnter={revealSpot}
+          onPointerDown={revealSpot}
+          onPointerMove={trackSpot}
+          onPointerLeave={hideSpot}
+          onPointerUp={hideSpot}
+          onPointerCancel={hideSpot}
+        />
+      </div>
       <div className="hero__copy">
         <h1 className="hero__headline">
           Finding connections in the complexity
