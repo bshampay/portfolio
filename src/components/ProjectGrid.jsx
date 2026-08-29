@@ -9,6 +9,7 @@ function ProjectGrid() {
           key={project.slug}
           slug={project.slug}
           title={project.title}
+          size={project.size}
         />
       ))}
     </section>

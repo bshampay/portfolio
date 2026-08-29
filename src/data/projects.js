@@ -1,6 +1,15 @@
 // Placeholder project data. Replace title/summary/blurb/images as real
 // projects are chosen. Every project routes to the same ProjectPage
 // template, so the structure stays consistent as content changes.
+//
+// `size` drives the collage grid on the homepage:
+//   "regular" — one grid cell
+//   "tall"    — spans 2 rows
+//   "wide"    — spans 2 columns
+// Reorder or resize entries here to change the collage layout. Current
+// sizes mirror left/right (tall, regular, regular, tall, regular,
+// regular, wide, wide) so the grid reads as balanced overall despite
+// the size mix.
 
 export const projects = [
   {
@@ -12,6 +21,7 @@ export const projects = [
       "A project page can have multiple paragraphs. Keep it visual-forward and minimal — this is the one spot for more text context per project.",
     ],
     images: 3,
+    size: "tall",
   },
   {
     slug: "project-2",
@@ -19,6 +29,7 @@ export const projects = [
     summary: "Placeholder description.",
     blurb: ["Placeholder blurb for this project."],
     images: 1,
+    size: "regular",
   },
   {
     slug: "project-3",
@@ -26,6 +37,7 @@ export const projects = [
     summary: "Placeholder description.",
     blurb: ["Placeholder blurb for this project."],
     images: 1,
+    size: "regular",
   },
   {
     slug: "project-4",
@@ -33,6 +45,7 @@ export const projects = [
     summary: "Placeholder description.",
     blurb: ["Placeholder blurb for this project."],
     images: 1,
+    size: "tall",
   },
   {
     slug: "project-5",
@@ -40,6 +53,7 @@ export const projects = [
     summary: "Placeholder description.",
     blurb: ["Placeholder blurb for this project."],
     images: 1,
+    size: "regular",
   },
   {
     slug: "project-6",
@@ -47,5 +61,22 @@ export const projects = [
     summary: "Placeholder description.",
     blurb: ["Placeholder blurb for this project."],
     images: 1,
+    size: "regular",
+  },
+  {
+    slug: "project-7",
+    title: "Project 7",
+    summary: "Placeholder description.",
+    blurb: ["Placeholder blurb for this project."],
+    images: 1,
+    size: "wide",
+  },
+  {
+    slug: "project-8",
+    title: "Project 8",
+    summary: "Placeholder description.",
+    blurb: ["Placeholder blurb for this project."],
+    images: 1,
+    size: "wide",
   },
 ];
