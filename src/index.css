@@ -59,12 +59,12 @@ a {
   top: 72%;
   --spot-x: 50%;
   --spot-y: 30%;
-  --spot-radius: 55px;
+  --spot-radius: 80px;
   background: linear-gradient(
     to bottom,
     rgba(4, 8, 6, 0) 0%,
-    rgba(4, 8, 6, 0.55) 20%,
-    rgba(4, 8, 6, 0.88) 100%
+    rgba(4, 8, 6, 0.7) 15%,
+    rgba(4, 8, 6, 0.95) 100%
   );
   -webkit-mask-image: radial-gradient(
     circle var(--spot-radius) at var(--spot-x) var(--spot-y),
@@ -88,19 +88,37 @@ a {
   transition: --spot-radius 0.35s ease;
 }
 
-.hero__copy {
+/* Headline and body copy are deliberately separate blocks with their
+   own widths — the headline spans the full content width (matching
+   the hero image/grid) so its centering reads as intentional, while
+   the body copy stays in its own narrower, left-aligned reading
+   column. Centering the headline inside that narrower column made it
+   look arbitrarily offset from the paragraph below it. */
+.hero__headline {
   max-width: var(--content-max);
-  margin: 0 auto;
-  padding: 2.5rem 1.5rem 1rem;
+  margin: 0 auto 1rem;
+  padding: 2.5rem 1.5rem 0;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
 }
 
-.hero__headline {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  margin: 0 0 1rem;
+.hero__copy {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 1.5rem 1rem;
+}
+
+/* One line on desktop, even though it means overflowing past the
+   headline's own padding — a deliberate exception. Below this
+   breakpoint, mobile keeps normal wrapping (and left alignment) so
+   the text can't get clipped off-screen. */
+@media (min-width: 640px) {
+  .hero__headline {
+    white-space: nowrap;
+    text-align: center;
+  }
 }
 
 .hero__body p {
-  max-width: 60ch;
   color: var(--color-muted);
   font-size: 1.05rem;
 }

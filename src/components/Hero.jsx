@@ -77,10 +77,8 @@ function Hero() {
           onPointerCancel={hideSpot}
         />
       </div>
+      <h1 className="hero__headline">Finding connections in the complexity</h1>
       <div className="hero__copy">
-        <h1 className="hero__headline">
-          Finding connections in the complexity
-        </h1>
         <div className="hero__body">
           <p>
             For the past 5 years I've been a Senior Product Designer at
