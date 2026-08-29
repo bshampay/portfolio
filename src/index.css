@@ -1,0 +1,121 @@
+:root {
+  --color-bg: #ffffff;
+  --color-text: #111111;
+  --color-muted: #666666;
+  --color-border: #e2e2e2;
+  --color-surface: #f2f2f2;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif;
+  --content-max: 1100px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+}
+
+/* Hero */
+
+.hero__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: cover;
+}
+
+.hero__copy {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 1rem;
+}
+
+.hero__headline {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  margin: 0 0 1rem;
+}
+
+.hero__body p {
+  max-width: 60ch;
+  color: var(--color-muted);
+  font-size: 1.05rem;
+}
+
+/* Project grid */
+
+.project-grid {
+  max-width: var(--content-max);
+  margin: 1rem auto 4rem;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.project-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.project-card__thumb {
+  aspect-ratio: 4 / 3;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+.project-card__title {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 1rem;
+}
+
+/* Project page */
+
+.project-page {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  text-decoration: none;
+  color: var(--color-muted);
+}
+
+.project-page__title {
+  margin: 0 0 1.5rem;
+}
+
+.project-page__gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.project-page__image {
+  aspect-ratio: 16 / 10;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+.project-page__blurb p {
+  max-width: 65ch;
+  color: var(--color-muted);
+}
