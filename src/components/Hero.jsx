@@ -21,21 +21,31 @@ function Hero() {
     veil.style.setProperty("--spot-y", `${y}%`);
   };
 
+  // "is-active" switches to a slower transition (see CSS) for a soft
+  // bloom-in while opening; hideSpot below removes it first so the
+  // close uses the fast one instead — an open circle visibly shrinking
+  // to a point reads as a deliberate animation, which isn't the goal.
   const revealSpot = (event) => {
     trackSpot(event);
-    veilRef.current?.style.setProperty("--spot-radius", HOVER_RADIUS);
+    const veil = veilRef.current;
+    if (!veil) return;
+    veil.classList.add("hero__soil-veil--active");
+    veil.style.setProperty("--spot-radius", HOVER_RADIUS);
   };
 
   // Fully closes the spotlight on leave — a "leave" can only happen
   // after an "enter", so the CSS default glow below (the resting cue
   // over the center tree's roots) only ever shows before the very
-  // first hover/touch, and never comes back after that.
+  // first hover/touch, and never comes back after that. Deliberately
+  // leaves --spot-x/--spot-y untouched: resetting them here would snap
+  // the position back to center while --spot-radius is still animating
+  // down, making the shrink-to-zero visibly happen at center instead of
+  // wherever the pointer actually left from.
   const hideSpot = () => {
     const veil = veilRef.current;
     if (!veil) return;
+    veil.classList.remove("hero__soil-veil--active");
     veil.style.setProperty("--spot-radius", "0px");
-    veil.style.removeProperty("--spot-x");
-    veil.style.removeProperty("--spot-y");
   };
 
   return (

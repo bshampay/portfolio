@@ -78,6 +78,13 @@ a {
     transparent 60%,
     black 100%
   );
+  /* Fast/subtle by default (covers closing) so the spotlight winking
+     out doesn't read as a deliberate "iris closing" animation. */
+  transition: --spot-radius 0.06s ease-out;
+}
+
+/* Slower, gentler bloom-in only while actively open. */
+.hero__soil-veil--active {
   transition: --spot-radius 0.35s ease;
 }
 
