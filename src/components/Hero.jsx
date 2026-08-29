@@ -21,7 +21,7 @@ function Hero() {
             Bayer, bringing Product Design — and increasingly Design
             Engineering — to enterprise software for hundreds of R&D
             Scientists around the world, helping them navigate decades of
-            data across our pipelines.
+            data across pipelines.
           </p>
           <p>
             These applications are under NDA, so I can't show them here,
