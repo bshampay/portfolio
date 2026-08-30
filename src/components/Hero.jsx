@@ -101,7 +101,7 @@ function Hero() {
         />
       </div>
       <h1 className="hero__headline">
-        Complex systems. Creating simplicity &amp; connection.
+        Complex systems. Finding simplicity &amp; connection.
       </h1>
       <div className="hero__copy">
         <div className="hero__body">
