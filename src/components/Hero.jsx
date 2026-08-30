@@ -5,6 +5,11 @@ import Fireflies from "./Fireflies";
 import TreeGlow from "./TreeGlow";
 
 const HOVER_RADIUS = "90px";
+// Delay before re-opening at the new position on the very first
+// engagement, giving the fast 0.06s close-transition (see
+// hero__soil-veil in index.css) time to finish fading the resting
+// center glow out before it reopens elsewhere.
+const FIRST_FADE_MS = 90;
 // Matches the mobile breakpoint used elsewhere (index.css) so the
 // image swap lines up with when the layout itself goes mobile.
 const MOBILE_QUERY = "(max-width: 640px)";
@@ -18,6 +23,16 @@ const MOBILE_QUERY = "(max-width: 640px)";
 // only with layered source art or a purpose-made looping video clip.
 function Hero() {
   const veilRef = useRef(null);
+  const hasInteractedRef = useRef(false);
+  const firstRevealTimeoutRef = useRef(null);
+  // True only during the brief FIRST_FADE_MS window on the very first
+  // engagement. onPointerMove is bound to trackSpot directly (below),
+  // and the same movement that triggers pointerenter also fires a
+  // pointermove for that spot — without this guard, position jumped to
+  // the new spot immediately via that parallel handler, while the
+  // circle was still visibly mid-shrink, instead of only moving once
+  // it's already invisible at radius 0.
+  const suppressTrackRef = useRef(false);
   const [isMobile, setIsMobile] = useState(
     () =>
       typeof window !== "undefined" && window.matchMedia(MOBILE_QUERY).matches,
@@ -32,9 +47,14 @@ function Hero() {
     return () => mql.removeEventListener("change", handleChange);
   }, []);
 
+  useEffect(() => {
+    return () => clearTimeout(firstRevealTimeoutRef.current);
+  }, []);
+
   // Written straight to the DOM (not React state) so dragging/hovering
   // doesn't trigger a re-render on every pointer move.
   const trackSpot = (event) => {
+    if (suppressTrackRef.current) return;
     const veil = veilRef.current;
     if (!veil) return;
     const rect = veil.getBoundingClientRect();
@@ -48,6 +68,14 @@ function Hero() {
   // bloom-in while opening; hideSpot below removes it first so the
   // close uses the fast one instead — an open circle visibly shrinking
   // to a point reads as a deliberate animation, which isn't the goal.
+  //
+  // The very first time anyone engages with the veil, this fades the
+  // resting center glow out in place first (reusing the fast base
+  // transition, no repositioning yet), then re-opens at wherever the
+  // pointer landed a beat later — a clean fade-out/fade-in rather than
+  // a snap. Tried making it travel/sweep across (slow position
+  // transition, then a bulging-radius variant on top of that) — both
+  // read as fiddly rather than smooth, so this is deliberately simpler.
   const revealSpot = (event) => {
     // After a real touch ends, WebKit/Chrome fire a synthetic "ghost"
     // mouse-type pointerenter+pointerdown a moment later for
@@ -60,9 +88,24 @@ function Hero() {
     if (event.pointerType === "touch") {
       event.preventDefault();
     }
-    trackSpot(event);
     const veil = veilRef.current;
     if (!veil) return;
+
+    if (!hasInteractedRef.current) {
+      hasInteractedRef.current = true;
+      suppressTrackRef.current = true;
+      const { clientX, clientY } = event;
+      veil.style.setProperty("--spot-radius", "0px");
+      firstRevealTimeoutRef.current = setTimeout(() => {
+        suppressTrackRef.current = false;
+        trackSpot({ clientX, clientY });
+        veil.classList.add("hero__soil-veil--active");
+        veil.style.setProperty("--spot-radius", HOVER_RADIUS);
+      }, FIRST_FADE_MS);
+      return;
+    }
+
+    trackSpot(event);
     veil.classList.add("hero__soil-veil--active");
     veil.style.setProperty("--spot-radius", HOVER_RADIUS);
   };
@@ -75,7 +118,13 @@ function Hero() {
   // the position back to center while --spot-radius is still animating
   // down, making the shrink-to-zero visibly happen at center instead of
   // wherever the pointer actually left from.
+  //
+  // Also cancels any pending first-fade reopen: if someone leaves
+  // before that fires (a very fast in-and-out), this stops it from
+  // popping the glow back open after they've already moved away.
   const hideSpot = () => {
+    clearTimeout(firstRevealTimeoutRef.current);
+    suppressTrackRef.current = false;
     const veil = veilRef.current;
     if (!veil) return;
     veil.classList.remove("hero__soil-veil--active");

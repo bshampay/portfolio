@@ -129,6 +129,24 @@ a {
   initial-value: 0px;
 }
 
+/* Same reasoning, for the resting center-glow's position — without
+   this, the very first hover away from that default spot snapped the
+   mask to the new position instantly, so the center glow looked like
+   it just vanished rather than fading out. inherits: false is correct
+   here (unlike --glow-radius elsewhere) since --spot-x/--spot-y are
+   read on .hero__soil-veil itself, not a pseudo-element. */
+@property --spot-x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+
+@property --spot-y {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 30%;
+}
+
 /* Lets the browser smoothly interpolate --glow-radius, same reason as
    --spot-radius above. inherits: true (unlike --spot-radius) because
    this one is set on .hero__glow-hotspot but actually read on its
@@ -229,11 +247,22 @@ a {
     black 100%
   );
   /* Fast/subtle by default (covers closing) so the spotlight winking
-     out doesn't read as a deliberate "iris closing" animation. */
+     out doesn't read as a deliberate "iris closing" animation. Position
+     doesn't transition here — tried a short glide on every move first,
+     but re-triggering it on each pointermove during real dragging read
+     as laggy/jittery rather than smooth. */
   transition: --spot-radius 0.06s ease-out;
 }
 
-/* Slower, gentler bloom-in only while actively open. */
+/* Slower, gentler bloom-in only while actively open. Position never
+   transitions — it always jumps straight to the pointer, matching
+   real-time tracking elsewhere. Tried a slower "travel" sweep and a
+   bulging-radius variant for the very first engagement (moving away
+   from the resting center glow); both read as fiddly rather than
+   smooth. Simplified back to this: revealSpot below fades the resting
+   glow out at its own position first (fast, via the base rule's
+   transition), then re-opens at the new spot a beat later — a quick
+   fade-out/fade-in instead of any kind of travel. */
 .hero__soil-veil--active {
   transition: --spot-radius 0.35s ease;
 }
