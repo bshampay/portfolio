@@ -100,7 +100,9 @@ function Hero() {
           onPointerCancel={hideSpot}
         />
       </div>
-      <h1 className="hero__headline">Finding connections in the complexity</h1>
+      <h1 className="hero__headline">
+        Complex systems. Creating simplicity &amp; connection.
+      </h1>
       <div className="hero__copy">
         <div className="hero__body">
           <p>

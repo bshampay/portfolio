@@ -161,7 +161,7 @@ a {
   margin: 0 auto 1rem;
   padding: 2.5rem 1.5rem 0;
   font-family: var(--font-headline);
-  font-weight: 600;
+  font-weight: 500;
   font-size: clamp(1.5rem, 4vw, 2.5rem);
 }
 
