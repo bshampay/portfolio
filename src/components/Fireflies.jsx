@@ -7,7 +7,11 @@ const MOBILE_COUNT = 8;
 // .hero__media), kept above the soil veil so they don't compete
 // visually with its darkened band. Each firefly gets its own
 // drift/glow timing (duration + negative delay to start mid-cycle)
-// so they don't all pulse in lockstep.
+// so they don't all pulse in lockstep. `bright` (desktop only, see
+// CSS) marks the ~1-in-5 sparkles that get a bigger core and a
+// four-point twinkle, matching the handful of brighter, star-flared
+// sparkles already in the illustration alongside the mostly tiny
+// pinpoint ones.
 function generateFireflies(count) {
   return Array.from({ length: count }, () => {
     const duration = 6 + Math.random() * 5;
@@ -16,13 +20,15 @@ function generateFireflies(count) {
       left: `${(2 + Math.random() * 96).toFixed(1)}%`,
       duration,
       delay: -(Math.random() * duration).toFixed(2),
+      bright: Math.random() < 0.2,
     };
   });
 }
 
 // Ambient, not tied to hover — ongoing ever since the page loads.
-// Desktop gets a denser field (80); mobile stays at the original,
-// already-tuned density (8).
+// Desktop gets a denser field (80) styled to look like the sparkles
+// already in the illustration; mobile stays at the original,
+// already-tuned density (8) and look for now.
 function Fireflies({ isMobile }) {
   const fireflies = useMemo(
     () => generateFireflies(isMobile ? MOBILE_COUNT : DESKTOP_COUNT),
@@ -30,11 +36,14 @@ function Fireflies({ isMobile }) {
   );
 
   return (
-    <div className="hero__fireflies" aria-hidden="true">
+    <div
+      className={`hero__fireflies hero__fireflies--${isMobile ? "mobile" : "desktop"}`}
+      aria-hidden="true"
+    >
       {fireflies.map((firefly, i) => (
         <span
           key={i}
-          className="firefly"
+          className={`firefly${!isMobile && firefly.bright ? " firefly--bright" : ""}`}
           style={{
             top: firefly.top,
             left: firefly.left,
