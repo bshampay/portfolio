@@ -51,10 +51,24 @@ function Hero() {
     return () => clearTimeout(firstRevealTimeoutRef.current);
   }, []);
 
+  // A touch-only device can't have a real mouse pointer, so any
+  // pointerType "mouse" event reaching these handlers on such a device
+  // has to be one of the synthetic "ghost" compatibility events real
+  // mobile browsers fire a moment after a genuine touch ends (to keep
+  // mouse-only sites working). preventDefault() on the real touch's
+  // pointerdown (below) is supposed to suppress that, but that
+  // suppression isn't reliably honored across every real mobile
+  // browser — this device-capability check is the actual fix: it
+  // ignores the ghost event outright regardless of whether the
+  // browser generated it anyway.
+  const isGhostMouseEvent = (event) =>
+    event.pointerType === "mouse" &&
+    !window.matchMedia("(hover: hover)").matches;
+
   // Written straight to the DOM (not React state) so dragging/hovering
   // doesn't trigger a re-render on every pointer move.
   const trackSpot = (event) => {
-    if (suppressTrackRef.current) return;
+    if (suppressTrackRef.current || isGhostMouseEvent(event)) return;
     const veil = veilRef.current;
     if (!veil) return;
     const rect = veil.getBoundingClientRect();
@@ -77,14 +91,18 @@ function Hero() {
   // transition, then a bulging-radius variant on top of that) — both
   // read as fiddly rather than smooth, so this is deliberately simpler.
   const revealSpot = (event) => {
-    // After a real touch ends, WebKit/Chrome fire a synthetic "ghost"
-    // mouse-type pointerenter+pointerdown a moment later for
-    // mouse-compatibility. Without this, that phantom event reopened
-    // the veil right after hideSpot closed it, and — since there's no
-    // real mouse to ever "leave" on a touch device — it just stayed
-    // open. preventDefault on the real touch's pointerdown suppresses
-    // that synthetic follow-up; touch-action stays default, so this
-    // doesn't affect page scroll.
+    // See isGhostMouseEvent above — this is the real fix for the
+    // synthetic ghost pointerenter/pointerdown mobile browsers fire a
+    // moment after a real touch ends, which was reopening the veil
+    // right after hideSpot had just closed it (and since there's no
+    // real mouse to ever "leave" on a touch device, it just stayed
+    // open indefinitely).
+    if (isGhostMouseEvent(event)) return;
+    // Also try to stop the browser from generating that ghost sequence
+    // in the first place — kept as defense in depth, but not relied on
+    // alone since it isn't consistently honored on every real mobile
+    // browser. touch-action stays default, so this doesn't affect page
+    // scroll.
     if (event.pointerType === "touch") {
       event.preventDefault();
     }

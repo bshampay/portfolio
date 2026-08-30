@@ -254,6 +254,16 @@ a {
   transition: --spot-radius 0.06s ease-out;
 }
 
+/* Mobile-only: the resting glow's radius is in fixed px, so the same
+   80px that reads as a tight cue on the wide desktop band covers a
+   much bigger share of the narrow mobile band — tightened down so it
+   sits on the middle tree's roots rather than spreading wide. */
+@media (max-width: 640px) {
+  .hero__soil-veil {
+    --spot-radius: 50px;
+  }
+}
+
 /* Slower, gentler bloom-in only while actively open. Position never
    transitions — it always jumps straight to the pointer, matching
    real-time tracking elsewhere. Tried a slower "travel" sweep and a
@@ -285,6 +295,22 @@ a {
   font-family: var(--font-headline);
   font-weight: 500;
   font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+/* Mobile-only: bigger than the 1.5rem floor above (4vw never clears
+   that floor below ~600px, so mobile was always rendering at the
+   smallest size in the clamp) so the headline reads as filling more
+   of a standard phone screen's two-line space, rather than looking
+   small relative to it. line-height is also tightened here — the
+   headline was inheriting body's 1.5, which reads as loose leading
+   for a big two-line display headline; desktop stays untouched since
+   it's one line there anyway (line-height barely matters on one
+   line). */
+@media (max-width: 640px) {
+  .hero__headline {
+    font-size: clamp(2rem, 9vw, 2.75rem);
+    line-height: 1.15;
+  }
 }
 
 .hero__copy {
