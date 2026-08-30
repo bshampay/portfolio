@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import heroImageDesktop from "../assets/hero_pano.png";
 import heroImageMobile from "../assets/hero.png";
 import Fireflies from "./Fireflies";
+import TreeGlow from "./TreeGlow";
 
 const HOVER_RADIUS = "90px";
 // Matches the mobile breakpoint used elsewhere (index.css) so the
@@ -89,6 +90,7 @@ function Hero() {
           src={isMobile ? heroImageMobile : heroImageDesktop}
           alt="A cross-section illustration of trees, roots, and a glowing mycelium network underground"
         />
+        <TreeGlow />
         <Fireflies isMobile={isMobile} />
         {/*
           Pointer Events unify mouse and touch: on desktop this is a
@@ -112,24 +114,25 @@ function Hero() {
         />
       </div>
       <h1 className="hero__headline">
-        Finding simplicity &amp; connection in complex systems.
+        Finding connection in complex systems.
       </h1>
       <div className="hero__copy">
         <div className="hero__body">
           <p>
             <strong>
-              For the past 5 years I've been a Senior Product Designer at
-              Bayer, bringing Product Design — and increasingly Design
-              Engineering
+              I've been a designer for 16 years, the past 5 a Senior
+              Product Designer at Bayer, working on enterprise software for
+              hundreds of R&D Scientists around the world and helping them
+              navigate decades of data across pipelines.
             </strong>{" "}
-            — to enterprise software for hundreds of R&D Scientists around
-            the world, helping them navigate decades of data across
-            pipelines.
+            These applications are under NDA, so I can't show them here,
+            but below are some recent side projects to give you a glimpse
+            into how I think and work.
           </p>
           <p>
-            These applications are under NDA, so I can't show them here,
-            but these recent side projects will give you a glimpse into
-            how I think and work.
+            Since 2026, I've also been getting back into shipping
+            production code for the first time in a decade, which has been
+            really exciting.
           </p>
         </div>
       </div>

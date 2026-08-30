@@ -129,6 +129,74 @@ a {
   initial-value: 0px;
 }
 
+/* Lets the browser smoothly interpolate --glow-radius, same reason as
+   --spot-radius above. inherits: true (unlike --spot-radius) because
+   this one is set on .hero__glow-hotspot but actually read on its
+   ::after pseudo-element — without inheritance the pseudo-element
+   never sees the JS-updated value and stays stuck at the 0px initial
+   value, so the gradient never grows no matter what the JS does. */
+@property --glow-radius {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+/* Tree/mushroom hover glow — a cursor-tracked "flashlight" over the
+   whole canopy area (one continuous region, not per-tree boxes — see
+   TreeGlow.jsx for why), same interaction model as the soil veil's
+   spotlight (fast close via the default transition, slower bloom-in
+   via --active, mirroring hero__soil-veil--active). Unlike the soil
+   veil this doesn't reveal anything hidden, it just adds a warm
+   screen-blended glow at the cursor. Positioning/pointer-events stay
+   unconditional so this div is always safely out of normal flow and
+   inert; only the glow itself is gated to (hover: hover) and
+   (pointer: fine), which excludes touchscreens entirely —
+   sidestepping the "hover sticks after a tap" problem rather than
+   relying on a viewport-width breakpoint. */
+.hero__glow-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero__glow-hotspot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* Matches .hero__soil-veil's top: 76% so this region ends exactly
+     where the soil veil begins, with no gap or overlap. */
+  bottom: 24%;
+  pointer-events: none;
+  --glow-x: 50%;
+  --glow-y: 50%;
+  --glow-radius: 0px;
+}
+
+.hero__glow-hotspot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle var(--glow-radius) at var(--glow-x) var(--glow-y),
+    rgba(255, 214, 140, 0.75) 0%,
+    rgba(255, 190, 100, 0.35) 55%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  transition: --glow-radius 0.06s ease-out;
+}
+
+.hero__glow-hotspot--active::after {
+  transition: --glow-radius 0.35s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero__glow-hotspot {
+    pointer-events: auto;
+  }
+}
+
 /* Soil starts covered/darkened, with a small resting glow over the
    center tree's roots as a cue that it's interactive. Dragging/hovering
    the pointer punches a tighter hole in the veil at the pointer
@@ -138,15 +206,15 @@ a {
   left: 0;
   right: 0;
   bottom: 0;
-  top: 72%;
+  top: 76%;
   --spot-x: 50%;
   --spot-y: 30%;
   --spot-radius: 80px;
   background: linear-gradient(
     to bottom,
     rgba(4, 8, 6, 0) 0%,
-    rgba(4, 8, 6, 0.7) 15%,
-    rgba(4, 8, 6, 0.95) 100%
+    rgba(4, 8, 6, 0.85) 12%,
+    rgba(4, 8, 6, 0.99) 100%
   );
   -webkit-mask-image: radial-gradient(
     circle var(--spot-radius) at var(--spot-x) var(--spot-y),
@@ -170,12 +238,17 @@ a {
   transition: --spot-radius 0.35s ease;
 }
 
-/* Headline and body copy are deliberately separate blocks with their
-   own widths — the headline spans the full content width (matching
-   the hero image/grid), while the body copy stays in its own
-   narrower reading column. Both center on desktop (below); the
-   headline needs its own wider column so a single-line, centered
-   headline doesn't read as offset from the narrower copy column. */
+/* The headline's own box spans the full content width (matching the
+   hero image/grid, needed so its nowrap/centering below don't read as
+   offset), but its actual TEXT is much narrower than that box since
+   it's short and centered. .hero__copy is capped at a fixed width
+   instead, picked to roughly match how wide the headline's rendered
+   text happens to look on a typical desktop viewport — so the body
+   copy's line width visually matches the headline, not its box. This
+   is an approximation, not a true match: it'll drift if the headline
+   wording gets noticeably longer or shorter later. On narrow (mobile)
+   viewports this max-width is moot — the viewport itself is already
+   narrower, so nothing changes there. */
 .hero__headline {
   max-width: var(--content-max);
   margin: 0 auto 1rem;
@@ -186,7 +259,7 @@ a {
 }
 
 .hero__copy {
-  max-width: 640px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 0 1.5rem 1rem;
 }
