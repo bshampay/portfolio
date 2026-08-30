@@ -4,8 +4,10 @@
   --color-muted: #666666;
   --color-border: #e2e2e2;
   --color-surface: #f2f2f2;
-  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif;
+  --font-body: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif;
+  --font-headline: "Jost", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif;
   --content-max: 1100px;
 }
 
@@ -18,6 +20,7 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
+  font-weight: 300;
   line-height: 1.5;
 }
 
@@ -90,14 +93,16 @@ a {
 
 /* Headline and body copy are deliberately separate blocks with their
    own widths — the headline spans the full content width (matching
-   the hero image/grid) so its centering reads as intentional, while
-   the body copy stays in its own narrower, left-aligned reading
-   column. Centering the headline inside that narrower column made it
-   look arbitrarily offset from the paragraph below it. */
+   the hero image/grid), while the body copy stays in its own
+   narrower reading column. Both center on desktop (below); the
+   headline needs its own wider column so a single-line, centered
+   headline doesn't read as offset from the narrower copy column. */
 .hero__headline {
   max-width: var(--content-max);
   margin: 0 auto 1rem;
   padding: 2.5rem 1.5rem 0;
+  font-family: var(--font-headline);
+  font-weight: 600;
   font-size: clamp(1.5rem, 4vw, 2.5rem);
 }
 
@@ -107,13 +112,18 @@ a {
   padding: 0 1.5rem 1rem;
 }
 
-/* One line on desktop, even though it means overflowing past the
-   headline's own padding — a deliberate exception. Below this
-   breakpoint, mobile keeps normal wrapping (and left alignment) so
-   the text can't get clipped off-screen. */
+/* Centered on desktop — headline stays one line (even though it means
+   overflowing past its own padding, a deliberate exception) and body
+   copy centers with it. Below this breakpoint, mobile keeps normal
+   wrapping and left alignment so the headline can't get clipped
+   off-screen and the paragraphs stay easy to scan at that width. */
 @media (min-width: 640px) {
   .hero__headline {
     white-space: nowrap;
+    text-align: center;
+  }
+
+  .hero__copy {
     text-align: center;
   }
 }
@@ -121,6 +131,11 @@ a {
 .hero__body p {
   color: var(--color-muted);
   font-size: 1.05rem;
+}
+
+.hero__body strong {
+  color: var(--color-text);
+  font-weight: 500;
 }
 
 /* Project grid — collage layout. Columns are fixed (not auto-fill) so

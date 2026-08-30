@@ -81,11 +81,14 @@ function Hero() {
       <div className="hero__copy">
         <div className="hero__body">
           <p>
-            For the past 5 years I've been a Senior Product Designer at
-            Bayer, bringing Product Design — and increasingly Design
-            Engineering — to enterprise software for hundreds of R&D
-            Scientists around the world, helping them navigate decades of
-            data across pipelines.
+            <strong>
+              For the past 5 years I've been a Senior Product Designer at
+              Bayer, bringing Product Design — and increasingly Design
+              Engineering
+            </strong>{" "}
+            — to enterprise software for hundreds of R&D Scientists around
+            the world, helping them navigate decades of data across
+            pipelines.
           </p>
           <p>
             These applications are under NDA, so I can't show them here,
