@@ -185,17 +185,35 @@ function Hero() {
       </h1>
       <div className="hero__copy">
         <div className="hero__body">
-          <p>
-            <strong>
-              I've been a designer for 16 years, the past 5 a Senior
-              Product Designer at Bayer, working on enterprise software for
-              hundreds of R&D Scientists around the world, helping them
-              navigate decades of data across pipelines.
-            </strong>{" "}
-            These applications are under NDA, so I can't show them here,
-            but coming soon below will be some recent side projects to give
-            you a glimpse into how I think and work.
-          </p>
+          {isMobile ? (
+            <>
+              <p>
+                <strong>
+                  I've been a designer for 16 years, the past 5 a Senior
+                  Product Designer at Bayer, working on enterprise software
+                  for hundreds of R&D Scientists around the world, helping
+                  them navigate decades of data across pipelines.
+                </strong>
+              </p>
+              <p>
+                These applications are under NDA, so I can't show them
+                here, but coming soon below will be some recent side
+                projects to give you a glimpse into how I think and work.
+              </p>
+            </>
+          ) : (
+            <p>
+              <strong>
+                I've been a designer for 16 years, the past 5 a Senior
+                Product Designer at Bayer, working on enterprise software
+                for hundreds of R&D Scientists around the world, helping
+                them navigate decades of data across pipelines.
+              </strong>{" "}
+              These applications are under NDA, so I can't show them here,
+              but coming soon below will be some recent side projects to
+              give you a glimpse into how I think and work.
+            </p>
+          )}
           <p>
             Since 2026, I've also been getting back into shipping
             production code for the first time in a decade, which has been

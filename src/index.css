@@ -308,7 +308,7 @@ a {
    line). */
 @media (max-width: 640px) {
   .hero__headline {
-    font-size: clamp(2rem, 9vw, 2.75rem);
+    font-size: clamp(1.85rem, 8vw, 2.5rem);
     line-height: 1.15;
   }
 }
