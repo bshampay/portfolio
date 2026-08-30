@@ -126,8 +126,8 @@ function Hero() {
               navigate decades of data across pipelines.
             </strong>{" "}
             These applications are under NDA, so I can't show them here,
-            but below are some recent side projects to give you a glimpse
-            into how I think and work.
+            but coming soon below will be some recent side projects to give
+            you a glimpse into how I think and work.
           </p>
           <p>
             Since 2026, I've also been getting back into shipping
