@@ -1,13 +1,35 @@
-import { useRef } from "react";
-import heroImage from "../assets/hero_pano.png";
+import { useEffect, useRef, useState } from "react";
+import heroImageDesktop from "../assets/hero_pano.png";
+import heroImageMobile from "../assets/hero.png";
+import Fireflies from "./Fireflies";
 
 const HOVER_RADIUS = "90px";
+// Matches the mobile breakpoint used elsewhere (index.css) so the
+// image swap lines up with when the layout itself goes mobile.
+const MOBILE_QUERY = "(max-width: 640px)";
 
-// Static for now, per brief: no canopy/mycelium hover, ambient animation,
-// or sound yet — those are documented as future ideas in the project brief.
-// The soil veil is the one interaction built so far.
+// Static for now, per brief: no canopy/mycelium hover or sound yet —
+// those are documented as future ideas in the project brief. The soil
+// veil and the drifting fireflies are the two built so far. A WebGL
+// canopy-wind-warp effect was tried and pulled back out — displacing
+// pixels on one flat image reads as morphing, not swaying, since there's
+// no way to distinguish one leaf cluster from another. Revisit that idea
+// only with layered source art or a purpose-made looping video clip.
 function Hero() {
   const veilRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(
+    () =>
+      typeof window !== "undefined" && window.matchMedia(MOBILE_QUERY).matches,
+  );
+
+  // Same fireflies/spotlight interactions on both — only the source
+  // image changes.
+  useEffect(() => {
+    const mql = window.matchMedia(MOBILE_QUERY);
+    const handleChange = (event) => setIsMobile(event.matches);
+    mql.addEventListener("change", handleChange);
+    return () => mql.removeEventListener("change", handleChange);
+  }, []);
 
   // Written straight to the DOM (not React state) so dragging/hovering
   // doesn't trigger a re-render on every pointer move.
@@ -53,9 +75,10 @@ function Hero() {
       <div className="hero__media">
         <img
           className="hero__image"
-          src={heroImage}
+          src={isMobile ? heroImageMobile : heroImageDesktop}
           alt="A cross-section illustration of trees, roots, and a glowing mycelium network underground"
         />
+        <Fireflies />
         {/*
           Pointer Events unify mouse and touch: on desktop this is a
           hover-follow spotlight (pointerenter/move/leave). On touch,
