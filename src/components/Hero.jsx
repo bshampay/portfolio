@@ -48,6 +48,17 @@ function Hero() {
   // close uses the fast one instead — an open circle visibly shrinking
   // to a point reads as a deliberate animation, which isn't the goal.
   const revealSpot = (event) => {
+    // After a real touch ends, WebKit/Chrome fire a synthetic "ghost"
+    // mouse-type pointerenter+pointerdown a moment later for
+    // mouse-compatibility. Without this, that phantom event reopened
+    // the veil right after hideSpot closed it, and — since there's no
+    // real mouse to ever "leave" on a touch device — it just stayed
+    // open. preventDefault on the real touch's pointerdown suppresses
+    // that synthetic follow-up; touch-action stays default, so this
+    // doesn't affect page scroll.
+    if (event.pointerType === "touch") {
+      event.preventDefault();
+    }
     trackSpot(event);
     const veil = veilRef.current;
     if (!veil) return;
