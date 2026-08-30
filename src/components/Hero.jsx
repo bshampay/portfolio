@@ -78,7 +78,7 @@ function Hero() {
           src={isMobile ? heroImageMobile : heroImageDesktop}
           alt="A cross-section illustration of trees, roots, and a glowing mycelium network underground"
         />
-        <Fireflies />
+        <Fireflies isMobile={isMobile} />
         {/*
           Pointer Events unify mouse and touch: on desktop this is a
           hover-follow spotlight (pointerenter/move/leave). On touch,
