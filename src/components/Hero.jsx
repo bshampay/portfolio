@@ -122,7 +122,7 @@ function Hero() {
             <strong>
               I've been a designer for 16 years, the past 5 a Senior
               Product Designer at Bayer, working on enterprise software for
-              hundreds of R&D Scientists around the world and helping them
+              hundreds of R&D Scientists around the world, helping them
               navigate decades of data across pipelines.
             </strong>{" "}
             These applications are under NDA, so I can't show them here,
