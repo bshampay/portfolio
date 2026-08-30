@@ -319,13 +319,19 @@ a {
   font-weight: 500;
 }
 
-/* Project grid — collage layout. Columns are fixed (not auto-fill) so
-   the --tall/--wide spans below land predictably; grid-auto-flow: dense
-   lets cards pack around each other instead of leaving gaps. Resize the
-   collage by changing each project's `size` in src/data/projects.js. */
+/* Project grid — collage layout, deliberately full-width (no
+   --content-max cap) so it reads as a proper gallery rather than an
+   extension of the narrow text column above it. Columns are fixed
+   (not auto-fill) so the --tall/--wide spans below land predictably;
+   grid-auto-flow: dense lets cards pack around each other instead of
+   leaving gaps. Row height grows on wider screens so cells stay
+   reasonably proportioned as the columns themselves get wider — a
+   fixed 160px row on a 1800px-wide grid would make "regular" cells
+   look like flat letterboxes. Resize the collage by changing each
+   project's `size` in src/data/projects.js. */
 
 .project-grid {
-  max-width: var(--content-max);
+  position: relative;
   margin: 1rem auto 4rem;
   padding: 0 1.5rem;
   display: grid;
@@ -333,6 +339,18 @@ a {
   grid-auto-rows: 160px;
   grid-auto-flow: dense;
   gap: 1.25rem;
+}
+
+@media (min-width: 1000px) {
+  .project-grid {
+    grid-auto-rows: 210px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .project-grid {
+    grid-auto-rows: 250px;
+  }
 }
 
 @media (max-width: 640px) {
@@ -356,10 +374,58 @@ a {
 }
 
 .project-card__thumb {
+  position: relative;
   height: 100%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
+  overflow: hidden;
+  /* Generously rounded, no hard border — reads as a photo/screenshot
+     sitting in the grid rather than a boxed-in placeholder, closer to
+     the reference gallery than the site's usual thin-bordered cards. */
+  border-radius: 18px;
+  background: linear-gradient(135deg, #eef1f5 0%, #dbe2e9 100%);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* A few tonal variants of the same gray-blue, cycled across the grid —
+   reads as wireframe placeholders holding a spot for real screenshots,
+   rather than a wall of identical boxes. Kept to one hue family
+   (no green/tan) so it stays a deliberately neutral "coming soon"
+   placeholder rather than looking like finished, colorful content. */
+.project-card:nth-child(4n + 2) .project-card__thumb {
+  background: linear-gradient(135deg, #e6eaf0 0%, #d0d9e2 100%);
+}
+
+.project-card:nth-child(4n + 3) .project-card__thumb {
+  background: linear-gradient(135deg, #f1f3f6 0%, #e2e8ed 100%);
+}
+
+.project-card:nth-child(4n + 4) .project-card__thumb {
+  background: linear-gradient(135deg, #e2e7ed 0%, #c9d3dd 100%);
+}
+
+.project-card:hover .project-card__thumb {
+  transform: scale(1.015);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
+}
+
+.project-card__thumb::after {
+  content: "Coming soon";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  background: rgba(255, 255, 255, 0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-card:hover .project-card__thumb::after {
+  opacity: 1;
 }
 
 /* Project page */
