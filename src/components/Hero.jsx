@@ -3,6 +3,8 @@ import heroImageDesktop from "../assets/hero_pano.png";
 import heroImageMobile from "../assets/hero.png";
 import Fireflies from "./Fireflies";
 import TreeGlow from "./TreeGlow";
+import SocialLinks from "./SocialLinks";
+import WorkHistory from "./WorkHistory";
 
 const HOVER_RADIUS = "90px";
 // Delay before re-opening at the new position on the very first
@@ -160,24 +162,28 @@ function Hero() {
         <TreeGlow />
         <Fireflies isMobile={isMobile} />
         {/*
-          Pointer Events unify mouse and touch: on desktop this is a
-          hover-follow spotlight (pointerenter/move/leave). On touch,
-          there's no hover, so pointerdown/move/up naturally becomes
-          "press and drag to reveal" instead — no separate touch code
-          needed. Left as default touch-action so a vertical swipe that
-          turns into a page scroll still cancels the gesture and scrolls
-          normally rather than getting stuck.
+          Pointer Events give desktop a hover-follow spotlight
+          (pointerenter/move/leave). Touch doesn't get the interactive
+          version at all — press-and-drag to reveal turned out buggy on
+          real devices (ghost compatibility events reopening the veil,
+          see isGhostMouseEvent above), so on mobile this just renders
+          with no handlers at all and sits at its resting CSS glow
+          permanently instead.
         */}
         <div
           ref={veilRef}
           className="hero__soil-veil"
           aria-hidden="true"
-          onPointerEnter={revealSpot}
-          onPointerDown={revealSpot}
-          onPointerMove={trackSpot}
-          onPointerLeave={hideSpot}
-          onPointerUp={hideSpot}
-          onPointerCancel={hideSpot}
+          {...(!isMobile
+            ? {
+                onPointerEnter: revealSpot,
+                onPointerDown: revealSpot,
+                onPointerMove: trackSpot,
+                onPointerLeave: hideSpot,
+                onPointerUp: hideSpot,
+                onPointerCancel: hideSpot,
+              }
+            : {})}
         />
       </div>
       <h1 className="hero__headline">
@@ -185,41 +191,16 @@ function Hero() {
       </h1>
       <div className="hero__copy">
         <div className="hero__body">
-          {isMobile ? (
-            <>
-              <p>
-                <strong>
-                  I've been a designer for 16 years, the past 5 a Senior
-                  Product Designer at Bayer, working on enterprise software
-                  for hundreds of R&D Scientists around the world, helping
-                  them navigate decades of data across pipelines.
-                </strong>
-              </p>
-              <p>
-                These applications are under NDA, so I can't show them
-                here, but coming soon below will be some recent side
-                projects to give you a glimpse into how I think and work.
-              </p>
-            </>
-          ) : (
-            <p>
-              <strong>
-                I've been a designer for 16 years, the past 5 a Senior
-                Product Designer at Bayer, working on enterprise software
-                for hundreds of R&D Scientists around the world, helping
-                them navigate decades of data across pipelines.
-              </strong>{" "}
-              These applications are under NDA, so I can't show them here,
-              but coming soon below will be some recent side projects to
-              give you a glimpse into how I think and work.
-            </p>
-          )}
           <p>
-            Since 2026, I've also been getting back into shipping
-            production code for the first time in a decade, which has been
-            really exciting.
+            Becky Shampay is a Senior Product Designer at Bayer, working
+            on global enterprise software for R&D Scientists. These internal
+            applications are under NDA, but coming soon below will be
+            recent side projects to give you a glimpse into how she
+            thinks and works.
           </p>
         </div>
+        <WorkHistory />
+        <SocialLinks />
       </div>
     </header>
   );
