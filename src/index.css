@@ -351,7 +351,7 @@ a {
 
 .hero__body p {
   color: var(--color-muted);
-  font-size: 1.05rem;
+  font-size: 1.15rem;
 }
 
 .hero__body a {
@@ -376,7 +376,7 @@ a {
 
 .hero__work-list li {
   margin-bottom: 0.4rem;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
 }
 
 .hero__work-org {
