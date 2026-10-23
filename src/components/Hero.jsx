@@ -15,7 +15,7 @@ function Hero() {
         <div className="hero__body">
           <p>
             Hi, I'm Becky, a Senior Product Designer at Bayer for the last
-            5 years. I've been working as a lead Product Designer &
+            5 years. I've been working as a Lead Product Designer &
             Researcher on global enterprise software for R&D Chemists and
             Biologists in their{" "}
             <a
