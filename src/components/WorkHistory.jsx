@@ -5,6 +5,7 @@ const WORK_HISTORY = [
   { org: "a la mode, inc", years: "2014–2017" },
   { org: "U.S. Air Force", years: "2013–2014" },
   { org: "OKC Humane Society", years: "2012–2013" },
+  { org: "Museum of Pop Culture", years: "2009–2010" },
 ];
 
 function WorkHistory() {
