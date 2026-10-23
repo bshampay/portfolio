@@ -9,22 +9,20 @@ function Hero() {
   return (
     <header className="hero">
       <h1 className="hero__headline">
-        A designer who builds and finds connections in complex systems.
+        A designer who builds. Finding connections in complex systems.
       </h1>
       <div className="hero__copy">
         <div className="hero__body">
           <p>
-            Hi, I'm Becky, and I've been designing for 15 years. For the
-            last 5, I've been at Bayer as a
-            Senior Product Designer, leading design and research on
-            several of the global software products for R&D chemists and
-            biologists across{" "}
+            Hi, I'm Becky, a Senior Product Designer with 15 years of experience.
+            At Bayer, I lead design and research for global software used
+            by R&D chemists and biologists across the{" "}
             <a
               href="https://www.bayer.com/en/portfolio/agriculture/agriculture-pipeline"
               target="_blank"
               rel="noreferrer"
             >
-              Bayer's Crop Science&nbsp;Pipeline
+              Crop Science&nbsp;Pipeline
             </a>
             .
           </p>
