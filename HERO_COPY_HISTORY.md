@@ -4,6 +4,18 @@ Snapshots of the hero's headline/body copy, kept so a past version can be
 restored if a rewrite doesn't work out. Not auto-generated — add a new
 entry by hand whenever the copy changes meaningfully.
 
+## 2026-10-23 — first-person intro with Crop Science Pipeline link
+
+Replaced this version (third-person bio, before the hero image was also
+removed):
+
+> **Finding connection in complex systems.**
+>
+> Becky Shampay is a Senior Product Designer at Bayer, working on global
+> enterprise software for R&D Scientists. These internal applications are
+> under NDA, but coming soon below will be recent side projects to give
+> you a glimpse into how she thinks and works.
+
 ## 2026-08-31 — replaced with third-person bio + social icons
 
 Headline (unchanged, kept as-is in the 2026-08-31 rewrite):
