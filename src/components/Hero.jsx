@@ -15,10 +15,10 @@ function Hero() {
         <div className="hero__body">
           <p>
             Hi, I'm Becky, a product designer with 15 years of
-            experience. For the last 5, I've been at Bayer as a Senior
-            Product Designer, leading design and research on several of
-            the global software products for R&D chemists and biologists
-            across{" "}
+            experience. For the last 5 years, I've been at Bayer as a
+            Senior Product Designer, leading design and research on
+            several of the global software products for R&D chemists and
+            biologists across{" "}
             <a
               href="https://www.bayer.com/en/portfolio/agriculture/agriculture-pipeline"
               target="_blank"
