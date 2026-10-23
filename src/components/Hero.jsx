@@ -9,7 +9,7 @@ function Hero() {
   return (
     <header className="hero">
       <h1 className="hero__headline">
-        A designer who builds and finds connection in complex systems.
+        A designer who builds and finds connections in complex systems.
       </h1>
       <div className="hero__copy">
         <div className="hero__body">

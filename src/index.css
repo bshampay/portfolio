@@ -341,10 +341,14 @@ a {
 }
 
 /* The headline is long enough now that it only fits on one line once
-   the viewport clears ~1200px (its text is ~1160px wide at the 2.5rem
-   cap); below that it wraps, centered, instead of overflowing. */
-@media (min-width: 1200px) {
+   the viewport clears ~1240px (its text is ~1155px wide at the 2.5rem
+   cap, plus padding); below that it wraps, centered, instead of
+   overflowing. The --content-max cap is lifted here so the box spans
+   the viewport — otherwise the text overflows the 1100px box to the
+   right and sits off-center. */
+@media (min-width: 1240px) {
   .hero__headline {
+    max-width: none;
     white-space: nowrap;
   }
 }
