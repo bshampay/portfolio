@@ -16,7 +16,7 @@ function Hero() {
           <p>
             Hi, I'm Becky, a Senior Product Designer with 15 years of experience.
             At Bayer, I lead design and research for global software used
-            by R&D chemists and biologists across the{" "}
+            by R&D Scientists across the{" "}
             <a
               href="https://www.bayer.com/en/portfolio/agriculture/agriculture-pipeline"
               target="_blank"
