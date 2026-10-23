@@ -14,7 +14,7 @@ function Hero() {
       <div className="hero__copy">
         <div className="hero__body">
           <p>
-            Hi, I'm Becky, a Senior Product Designer with 15 years of experience.
+            Hi, I'm Becky Shampay, a Senior Product Designer with 15 years of experience.
             At Bayer, I lead design and research for global software used
             by R&D Scientists across the{" "}
             <a
